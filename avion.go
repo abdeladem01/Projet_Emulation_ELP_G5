@@ -1,4 +1,4 @@
-gpackage avion
+.gpackage avion
 
 import (
 	"fmt"
