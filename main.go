@@ -7,7 +7,7 @@ import (
   "strconv"
 )
 func genavion(n int){
-  var l []string
+  var l []
   var a int 
   var b int
   var k int
@@ -22,10 +22,10 @@ func genavion(n int){
       b:=(rand.Intn(max -min +1) + min)
       k := strconv.Itoa(a)
       p:= strconv.Itoa(b)
-      lu=append(lu,a)
-      lu=append(lu,b)
+      lu=append(lu,k)
+      lu=append(lu,p)
     }
-  l.append(lu)
+  l=append(l,lu)
   }
   fmt.Println(l)
 }
