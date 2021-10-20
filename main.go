@@ -22,7 +22,8 @@ func genavion(n int){
       b:=(rand.Intn(max -min +1) + min)
       k := strconv.Itoa(a)
       p:= strconv.Itoa(b)
-      
+      lu=append(lu,a)
+      lu=append(lu,b)
     }
   l.append(lu)
   }
