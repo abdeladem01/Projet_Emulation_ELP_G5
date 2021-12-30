@@ -1,34 +1,48 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
-  "time"
-  "fmt"
+	"time"
+	"math"
+	"os"
+	"bufio" //bufferedIO
+	"src"
+	. "src"
 )
-func genavion(n int)[][]int{
-  var l [][]int
-  for i:=0;i<n;i++{
-    var lu []int
-    for i:=0;i<1;i++{
-      rand.Seed(time.Now().UnixNano())
-      min:=0
-      max:=500
-      a:=(rand.Intn(max - min + 1) + min)
-      a=a*100
-      b:=(rand.Intn(max -min +1) + min)
-      b=b*100
-      lu=append(lu,a)
-      lu=append(lu,b)
-      min2:=100
-      max2:=400
-      m:=(rand.Intn(max2 - min2 + 1) + min2)
-      lu=append(lu,m)
-    }
-  l=append(l,lu)
-  }
-  return(l)
+func TourDeC(){
+
+
+	
 }
-func main() {
-  u:=genavion(5)
-  fmt.Println(u)
+func main() { 
+	//ToA : commencer par faire un titre pas pas important
+	grid := src.GenGridArray()
+	rand.Seed(time.Now().UnixNano())
+	aeroports := src.GenAeroport()
+	avions := src.GenAvion()
+	fmt.Print("Taper Entrer")
+	bufio.NewScanner(os.Stdin).Scan()
+	//gridIG := src.balalalal Interface graphique
+	//la faire passe dans un channel du genre//
+	//gridIGch := make(chan string,100)
+	//puis y envoyer la gridIG, jsp comment faire en GO :(
+	fini := make(chan bool, len(avions))
+	mutex := make(chan bool, 1)
+	//Y envoyer true d'abord :(
+	//bref requests de la position de lavion pour traçage	:
+	requetesPositions := make(chan src.AnnonceP )
+	//Creer slice de len(avions):
+	instuctions := make([]chan src.ChangeurP, len(avions)) //ToC
+	for i := range instructions {
+   	instructions[i] = make(chan src.ChangeurP, 10)
+	}
+	go TourDeC(requetesPositions,instructions, &grid)
+	for i := 0 ; i < len(avions) ; i++ {
+		go BougerAvion(avions[i], &grid, grid_view_channel_ToC, done, f, mutex, requetesPositions, instructions)
+	}
+	for i := 0 ; i < len(avions) ; i++ {
+		<- fini
+	}
+
 }
