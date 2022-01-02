@@ -7,10 +7,33 @@ import (
 	"math"
 	"os"
 	"bufio" //bufferedIO
-	"src"
-	. "src"
+	"./src"
+	. "./src"
 )
-func TourDeC(){
+func TourDeC(demande chan src.AnnonceP, changement []chan ChangeurP, grid *[Columns][Rows]int){
+	for {
+		p := <- demande //les positions des avions //à clarifier SpOOd
+		if grid[p.Next_X][p.Next_Y] == 2 || grid[p.Next_X][p.Next_Y] == 3 { // la prochine case est un avion
+			changement[p.Train_Id] <- ChangeurP {
+				Previous_X : p.Actual_X, //translater le X de 1 ou le Y à voir
+				Previous_Y : p.Actual_Y,
+				Next_X : p.Actual_X,
+				Next_Y : p.Actual_Y,
+				}
+		} else {
+			if grid[p.Next_X][p.Next_Y] != 1 {
+				grid[p.Next_X][p.Next_Y] = 3 //on réserve la prochaine case le cas echant
+			}
+			changement[p.Train_Id] <- ChangeurP {
+				//Garder le même Z
+				Previous_X : p.Actual_X,
+				Previous_Y : p.Actual_Y,
+				Next_X : p.Next_X,
+				Next_Y : p.Next_Y,
+				}
+		}
+	}
+}
 
 
 	

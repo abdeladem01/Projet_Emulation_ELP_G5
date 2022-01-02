@@ -6,7 +6,7 @@ const long = 10
 const larg = 10
 
 
-// NE PAS MODIFIER LES PARTIES SUIVANTES /!\
+// NE PAS MODIFIER LES PARTIES SUIVANTES /!\ //ToC
 type Avion struct {
 	Id int
 	X_position int
