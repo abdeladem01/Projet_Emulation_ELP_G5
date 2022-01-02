@@ -1,11 +1,11 @@
 package src
 
 import(
-	"strconv"
+	//"strconv"
 	"math/rand"
 	_ "reflect"
-	"fmt"
-	"os"
+	//"fmt"
+	//"os" utiliser pour faire le fichier des departs.
 	"strings"
 )
 
@@ -27,19 +27,16 @@ func GenIG(aeroports [nb_avion]Aeroport) string { //Interface visuelle ibra
 	for i := 0 ; i < Rows ; i++ {
 		visu += strings.Repeat("_", Columns) + "\n"
 	}
-
 	visu_lrg := Columns + 1
 	for i := 0 ; i < len(aeroports) ; i++ { //affichage en grille
 		XIG := aeroports[i].X_position
 		YIG := aeroports[i].Y_position
 		visu = visu[:visu_lrg * YIG + XIG] + aeroports[i].Name + visu[visu_lrg * YIG + XIG + 1:]
-	} 
-	
+	}
 	return visu
 }
 
 func GenAeroport(grid *[Columns][Rows]int) [nb_aero]Aeroport {
-
 	//fmt.Println("Creation de " + strconv.Itoa(nb_aero) + " aeroports...\n") //Error checking
 	aeroports := [nb_aero]Aeroport{}
 	for i := 0 ; i < nb_aero ; i++ {
@@ -51,26 +48,20 @@ func GenAeroport(grid *[Columns][Rows]int) [nb_aero]Aeroport {
 			X_position: x, 
 			Y_position: y,
 		}
-		
 		grid[x][y] = 1 //1 aeroport, 2 avion etc
 	}
-
 	return aeroports
 }
 
 func GenAvion(aeroports [nb_aero]Aeroport) []Avion {
-
 	avions := make([]Avion, 0)
-
 /*	if nb_avion >= nb_aero * (nb_aero - 1) {
 		fmt.Println("Creation de " + strconv.Itoa(nb_aero * (nb_aero - 1)) + " avions...\n")
 	} else {
 		fmt.Println("Creation de " + strconv.Itoa(nb_avion) + " avions...\n")
 	}
 */ //Faire choix si 1 avion par aeroport et par voie ou pas?
-
 	avions = make([]Avion, 0)
-
 	maj_nbavion := 0 //déjà créé
 //Si chaque avion a une trajection differente (C.A.)
 	for j := 0 ; j < nb_aero ; j++ { //lignes
@@ -107,6 +98,5 @@ func GenAvion(aeroports [nb_aero]Aeroport) []Avion {
 	
 	f.Close()
 */
-
 	return avions
 }

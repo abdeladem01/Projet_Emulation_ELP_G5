@@ -24,8 +24,7 @@ func TourDeC(demande chan src.AnnonceP, changement []chan ChangeurP, grid *[Colu
 			if grid[p.Next_X][p.Next_Y] != 1 {
 				grid[p.Next_X][p.Next_Y] = 3 //on réserve la prochaine case le cas echant
 			}
-			changement[p.Train_Id] <- ChangeurP {
-				//Garder le même Z
+			changement[p.Train_Id] <- src.ChangeurP {
 				Previous_X : p.Actual_X,
 				Previous_Y : p.Actual_Y,
 				Next_X : p.Next_X,
@@ -35,8 +34,23 @@ func TourDeC(demande chan src.AnnonceP, changement []chan ChangeurP, grid *[Colu
 	}
 }
 
-	
+func MaJIG(grid_view string, grid *[Columns][Rows]int, previous_x int, previous_y int, actual_x int, actual_y int) string { //ToC
+
+	visu_lrg := Columns + 1 //largeur de la grille visuellement
+
+	preXIG := previous_x * (Obstacle_size + 1)
+	preYIG := previous_y * (Obstacle_size + 1)
+	if grid[previous_x][previous_y] != 1 {
+		grid_view = grid_view[:visu_lrg * preYIG + preXIG] + "." + grid_view[visu_lrg * preYIG + preXIG + 1:]
+	}
+	if grid[actual_x][actual_y] != 1 {
+		grid_view = grid_view[:visu_lrg * actual_y + actual_x] + "W" + grid_view[visu_lrg * actual_y + actual_x + 1:]
+	}
+	return grid_view
 }
+
+	
+
 func main() { 
 	//ToA : commencer par faire un titre pas pas important
 	grid := src.GenGridArray()
@@ -67,3 +81,4 @@ func main() {
 	}
 
 }
+
