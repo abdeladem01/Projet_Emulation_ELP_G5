@@ -7,8 +7,8 @@ import (
 	"math"
 	"os"
 	"bufio" //bufferedIO
-	"./src" //probleme avec limport local?
-	. "./src"
+	"src" //regler probleme dimport du local ou modifier le go env
+	. "src"
 )
 func TourDeC(demande chan src.AnnonceP, changement []chan ChangeurP, grid *[Columns][Rows]int){
 	for {
@@ -34,7 +34,6 @@ func TourDeC(demande chan src.AnnonceP, changement []chan ChangeurP, grid *[Colu
 		}
 	}
 }
-func 
 
 	
 }
@@ -46,10 +45,9 @@ func main() {
 	avions := src.GenAvion()
 	fmt.Print("Taper Entrer")
 	bufio.NewScanner(os.Stdin).Scan()
-	//gridIG := src.balalalal Interface graphique
-	//la faire passe dans un channel du genre//
-	//gridIGch := make(chan string,100)
-	//puis y envoyer la gridIG, jsp comment faire en GO :(
+	gridIG := src.GenIG(aeroports)
+	IGchan := make(chan string, 100) //grid_view_channel pour pas se perdre
+	IGchan <- gridIG
 	fini := make(chan bool, len(avions))
 	mutex := make(chan bool, 1)
 	//Y envoyer true d'abord :(

@@ -7,7 +7,6 @@ import(
 	"fmt"
 	"os"
 	"strings"
-	"typesAndParam"
 )
 
 func GenGridArray() [Columns][Rows]int { //ToC
@@ -23,6 +22,21 @@ func GenGridSlice(R int, C int) [][]int {
 	return slice
 }
 
+func GenIG(aeroports [nb_avion]Aeroport) string { //Interface visuelle ibra
+	visu := "" //si probleme dans cette fonction, ajouter Obstacle_size
+	for i := 0 ; i < Rows ; i++ {
+		visu += strings.Repeat("_", Columns) + "\n"
+	}
+
+	visu_lrg := Columns + 1
+	for i := 0 ; i < len(aeroports) ; i++ { //affichage en grille
+		XIG := aeroports[i].X_position
+		YIG := aeroports[i].Y_position
+		visu = visu[:visu_lrg * YIG + XIG] + aeroports[i].Name + visu[visu_lrg * YIG + XIG + 1:]
+	} 
+	
+	return visu
+}
 
 func GenAeroport(grid *[Columns][Rows]int) [nb_aero]Aeroport {
 
@@ -33,7 +47,7 @@ func GenAeroport(grid *[Columns][Rows]int) [nb_aero]Aeroport {
 		y := rand.Intn(Rows) //ToC
 		aeroports[i] = Aeroport {
 			Id: i,
-			Name: string(65 + i),
+			Name: string(65 + i), //string 65 étant A
 			X_position: x, 
 			Y_position: y,
 		}
@@ -88,7 +102,7 @@ func GenAvion(aeroports [nb_aero]Aeroport) []Avion {
 
     for i := 0; i < len(avions); i++ {	
     	
-		f.WriteString("Avion " + strconv.Itoa(i) + " : From station " + avions[i].Departure.Name + " to " + avions[i].Arrival.Name + "\n")
+		f.WriteString("Avion " + strconv.Itoa(i) + " : Départ de " + avions[i].Departure.Name + " et doit arriver à " + avions[i].Arrival.Name + "\n")
 	}
 	
 	f.Close()

@@ -11,8 +11,8 @@ type Avion struct {
 	Id int
 	X_position int
 	Y_position int
-	Departure Station
-	Arrival Station
+	Departure Aeroport
+	Arrival Aeroport
 }
 
 type Aeroport struct {
