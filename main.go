@@ -7,7 +7,7 @@ import (
 	"math"
 	"os"
 	"bufio" //bufferedIO
-	"./src"
+	"./src" //probleme avec limport local?
 	. "./src"
 )
 func TourDeC(demande chan src.AnnonceP, changement []chan ChangeurP, grid *[Columns][Rows]int){
@@ -34,7 +34,7 @@ func TourDeC(demande chan src.AnnonceP, changement []chan ChangeurP, grid *[Colu
 		}
 	}
 }
-
+func 
 
 	
 }

@@ -15,6 +15,15 @@ func GenGridArray() [Columns][Rows]int { //ToC
 	return grid
 }
 
+func GenGridSlice(R int, C int) [][]int { 
+	slice := make([][]int, C)
+	for i := range slice {
+   		slice[i] = make([]int, R)
+	}
+	return slice
+}
+
+
 func GenAeroport(grid *[Columns][Rows]int) [nb_aero]Aeroport {
 
 	//fmt.Println("Creation de " + strconv.Itoa(nb_aero) + " aeroports...\n") //Error checking
@@ -87,4 +96,3 @@ func GenAvion(aeroports [nb_aero]Aeroport) []Avion {
 
 	return avions
 }
-
