@@ -31,7 +31,7 @@ type AnnonceP struct {
 }
 
 type ChangeurP struct {
-	Stop bool
+	CollisionPossible bool
 	Previous_X int
 	Previous_Y int
 	Next_X int
