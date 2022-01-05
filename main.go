@@ -182,7 +182,7 @@ func MaJIG(grid_view string, grid *[long][larg]int, previous_x int, previous_y i
 		grid_view = grid_view[:visu_lrg * actual_y + actual_x] + "W" + grid_view[visu_lrg * actual_y + actual_x + 1:]
 	}
 	return grid_view
-} mutex chan bool,
+}
 
 func BougerAvion(avion Avion, grid *[long][larg]int, IGchan chan string, fini chan bool, requests chan AnnonceP, instructions []chan ChangeurP) {
 	for avion.X_position != avion.Arrival.X_position || avion.Y_position != avion.Arrival.Y_position {
