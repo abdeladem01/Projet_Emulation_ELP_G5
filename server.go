@@ -233,13 +233,20 @@ func BougerAvion(avion Avion, grid *[long][larg]int, IGchan chan string, fini ch
 						Next_X : request_new_x,
 						Next_Y : request_new_y,
 					}
-		instruction := <- instructions[avion.Id] //ToC			
+		instruction := <- instructions[avion.Id] //ToC	
+		if grid[instruction.Next_X][instruction.Next_Y] == 2  { 
+				io.WriteString(conn,"L'avion du vol ELP0"+strconv.Itoa(avion.Id+100)+ " a changé d'altitude pour éviter un avion\n")
+			}		
 			if grid[instruction.Next_X][instruction.Next_Y] != 1 && grid[instruction.Next_X][instruction.Next_Y] != 2 { //Ni aeroport ni station
 				grid[instruction.Next_X][instruction.Next_Y] = 2
+			}
+			if grid[instruction.Next_X][instruction.Next_Y] == 1  { 
+				io.WriteString(conn,"L'avion du vol ELP0"+strconv.Itoa(avion.Id+100)+ " a attéri à l'aeroport de la ville "+avion.Arrival.Name+"\n")
 			}
 			if grid[instruction.Previous_X][instruction.Previous_Y] != 1 { //Si juste pas aeroport
 				grid[instruction.Previous_X][instruction.Previous_Y] = 0 //On dé-reserve la case reservé par avion
 			}
+			
 
 			gridIG := <- IGchan
 			gridIG = MaJIG(gridIG, grid, instruction.Previous_X, instruction.Previous_Y, instruction.Next_X, instruction.Next_Y)
@@ -247,10 +254,6 @@ func BougerAvion(avion Avion, grid *[long][larg]int, IGchan chan string, fini ch
 			fmt.Println(gridIG) //Faudra peut etre lenlever et montrer letat que quand tt les avions finissent de bouger
      	io.WriteString(conn,gridIG+"\n")
 
-      io.WriteString(conn,"")
-      io.WriteString(conn,"")
-      io.WriteString(conn,"")
-      
 			IGchan <- gridIG
 			avion.X_position = instruction.Next_X
 			avion.Y_position = instruction.Next_Y
@@ -269,8 +272,18 @@ func maingo(conn net.Conn, nb_avion int) {
 	rand.Seed(time.Now().UnixNano())
 	aeroports := GenAeroport(&grid)
 	avions := GenAvion(aeroports,conn,nb_avion)
-	fmt.Print("######## Taper 'Entrée' pour lancer la simulation ########")
-	bufio.NewScanner(os.Stdin).Scan()
+  io.WriteString(conn,"######## Taper 'Entrée' pour lancer la simulation ########\n")
+  read:= bufio.NewReader(conn)
+  for {
+      result, err := read.ReadString('\n')
+        if (err != nil){
+          fmt.Printf("DEBUG MAIN could not read from client")
+          os.Exit(1)
+            	}
+        if result=="oui\n"{
+          break
+        }
+  }
 	gridIG := GenIG(aeroports)
 	IGchan := make(chan string, 100) //grid_view_channel pour pas se perdre
 	IGchan <- gridIG

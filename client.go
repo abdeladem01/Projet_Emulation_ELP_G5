@@ -56,7 +56,12 @@ func main() {
                 fmt.Printf("DEBUG MAIN could not read from server")
                 os.Exit(1)
             	}
-            fmt.Println(resultString)
+            fmt.Print(resultString)
+						if resultString == "######## Taper 'Entrée' pour lancer la simulation ########\n" {
+							fmt.Println("yes")
+							bufio.NewScanner(os.Stdin).Scan()
+							io.WriteString(conn,"oui\n")
+						}
 						}
 				}
 }
