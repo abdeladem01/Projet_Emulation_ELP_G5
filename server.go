@@ -13,7 +13,6 @@ import (
 )
 // MODIFICATION AUTORISÉE POUR LA PARTIE SUIVANTE :)
 const nb_aero = 5
-var nb_avion = 10
 const long = 40
 const larg = 7
 // NE PAS MODIFIER LES PARTIES SUIVANTES /!\ //ToC
@@ -38,7 +37,6 @@ type AnnonceP struct {
 	Actual_Y int
 	Next_X int
 	Next_Y int
-	//Ajouter Z 0 ou 1 atteri ou en vol
 }
 
 type ChangeurP struct {
@@ -53,14 +51,6 @@ type ChangeurP struct {
 func GenGridArray() [long][larg]int { //ToC
 	var grid [long][larg]int
 	return grid
-}
-
-func GenGridSlice(R int, C int) [][]int { 
-	slice := make([][]int, C)
-	for i := range slice {
-   		slice[i] = make([]int, R)
-	}
-	return slice
 }
 
 func GenIG(aeroports [nb_aero]Aeroport) string { 
@@ -96,12 +86,7 @@ func GenAeroport(grid *[long][larg]int) [nb_aero]Aeroport {
 
 func GenAvion(aeroports [nb_aero]Aeroport,conn net.Conn, nb_avion int) []Avion {
 	avions := make([]Avion, 0)
-/*	if nb_avion >= nb_aero * (nb_aero - 1) {
-		fmt.Println("Creation de " + strconv.Itoa(nb_aero * (nb_aero - 1)) + " avions...\n")
-	} else {
-		fmt.Println("Creation de " + strconv.Itoa(nb_avion) + " avions...\n")
-	}
-*/ //Faire choix si 1 avion par aeroport et par voie ou pas?
+ //Faire choix si 1 avion par aeroport et par voie ou pas?
 	avions = make([]Avion, 0)
 	maj_nbavion := 0 //déjà créé
 //Si chaque avion a une trajection differente (C.A.)
@@ -126,11 +111,7 @@ func GenAvion(aeroports [nb_aero]Aeroport,conn net.Conn, nb_avion int) []Avion {
     for i := 0; i < len(avions); i++ {	
     	
 
-    io.WriteString(conn,"Le vol ELP010" + strconv.Itoa(i) + " va effectuer son départ de l'aéroport " + avions[i].Departure.Name + " à destination de l'aéroport " + avions[i].Arrival.Name + ".\n La température attendue à la ville "+ avions[i].Arrival.Name + " est de "+strconv.Itoa(rand.Intn(35))+"°C.")
-    /*
-		fmt.Println("Le vol ELP010" + strconv.Itoa(i) + " va effectuer son départ de l'aéroport " + avions[i].Departure.Name + " à destination de l'aéroport " + avions[i].Arrival.Name + ". La température attendue à la ville "+ avions[i].Arrival.Name + " est de "+strconv.Itoa(rand.Intn(35))+"°C.")
-		time.Sleep(time.Millisecond * 200)
-    */
+    io.WriteString(conn,"Le vol ELP010" + strconv.Itoa(i) + " va effectuer son départ de l'aéroport " + avions[i].Departure.Name + " à destination de l'aéroport " + avions[i].Arrival.Name + ".\n La température attendue à la ville "+ avions[i].Arrival.Name + " est de "+strconv.Itoa(rand.Intn(35))+"°C.\n")
 		}
 	io.WriteString(conn,"\n")
 	io.WriteString(conn,"    ____ \n")
@@ -148,24 +129,6 @@ func GenAvion(aeroports [nb_aero]Aeroport,conn net.Conn, nb_avion int) []Avion {
 	io.WriteString(conn,"    | |____| |____| |  / ____ \\| | |        | o'\n")
 	io.WriteString(conn,"    |______|______|_| /_/    \\_\\_|_|  \n")
 	io.WriteString(conn,"\n")
-  /*
-	fmt.Println(" ")
-	fmt.Println("    ____ ")
-	fmt.Println("   / __ )____  ____               _   ______  __  ______ _____ ____ ")
-	fmt.Println("  / __  / __ \\/ __ \\             | | / / __ \\/ / / / __ `/ __ `/ _ \\")
-	fmt.Println(" / /_/ / /_/ / / / /             | |/ / /_/ / /_/ / /_/ / /_/ /  __/")
-	fmt.Println("/_____/\\____/_/ /_/_ __   _____  |___/\\____/\\__, /\\__,_/\\__, /\\___/ ")
-	fmt.Println("               / __ `/ | / / _ \\/ ___/     /____/      /____/       ")
-	fmt.Println("              / /_/ /| |/ /  __/ /__                                ")
-	fmt.Println("              \\__,_/ |___/\\___/\\___/                                ")
-	fmt.Println("     ______ _      _____        _      ")
-	fmt.Println("    |  ____| |    |  __ \\ /\\   (_)            ____       _")
-	fmt.Println("    | |__  | |    | |__) /  \\   _ _ __      |__\\\\_\\_o,___/ \\")
-	fmt.Println("    |  __| | |    |  ___/ /\\ \\ | | '__|    ([___\\_\\_____-\\'")
-	fmt.Println("    | |____| |____| |  / ____ \\| | |        | o'")
-	fmt.Println("    |______|______|_| /_/    \\_\\_|_|  ")
-	fmt.Println("")
-  */
 	return avions
 }
  //Programme Principal
@@ -241,7 +204,7 @@ func BougerAvion(avion Avion, grid *[long][larg]int, IGchan chan string, fini ch
 				grid[instruction.Next_X][instruction.Next_Y] = 2
 			}
 			if grid[instruction.Next_X][instruction.Next_Y] == 1  { 
-				io.WriteString(conn,"L'avion du vol ELP0"+strconv.Itoa(avion.Id+100)+ " a attéri à l'aeroport de la ville "+avion.Arrival.Name+"\n")
+				io.WriteString(conn,"L'avion du vol ELP0"+strconv.Itoa(avion.Id+100)+ " va attérir à l'aeroport de la ville "+avion.Arrival.Name+"\n")
 			}
 			if grid[instruction.Previous_X][instruction.Previous_Y] != 1 { //Si juste pas aeroport
 				grid[instruction.Previous_X][instruction.Previous_Y] = 0 //On dé-reserve la case reservé par avion
@@ -251,13 +214,12 @@ func BougerAvion(avion Avion, grid *[long][larg]int, IGchan chan string, fini ch
 			gridIG := <- IGchan
 			gridIG = MaJIG(gridIG, grid, instruction.Previous_X, instruction.Previous_Y, instruction.Next_X, instruction.Next_Y)
 
-			fmt.Println(gridIG) //Faudra peut etre lenlever et montrer letat que quand tt les avions finissent de bouger
      	io.WriteString(conn,gridIG+"\n")
 
 			IGchan <- gridIG
 			avion.X_position = instruction.Next_X
 			avion.Y_position = instruction.Next_Y
-			//time.Sleep(time.Millisecond * 5000) //Pour voir le lancement plus longtemps
+		
 		}
 
 	    
@@ -321,7 +283,6 @@ func getArgs() int {
 		}
 
 	}
-    //PFR should never be reached
 	return -1
 }
 
@@ -361,11 +322,7 @@ func main() {
 
 func handleConnection(connection net.Conn, connum int) {
 	defer connection.Close()
-	connReader := bufio.NewReader(connection)
-	//    if err !=nil{
-	//        fmt.Printf("#DEBUG %d handleConnection could not create reader\n", connum)
-	//        return
-	//    }
+	connReader:= bufio.NewReader(connection)
 		inputLine, err := connReader.ReadString('\n')
 resultString := strings.TrimSuffix(inputLine, "\n")
     intinput,err := strconv.Atoi(resultString)
@@ -378,12 +335,4 @@ resultString := strings.TrimSuffix(inputLine, "\n")
 		}
     nb_avion:=intinput
     maingo(connection,nb_avion)
-		/*inputLine = strings.TrimSuffix(inputLine, "\n")
-		fmt.Printf("#DEBUG %d RCV |%s|\n", connum, inputLine)
-    splitLine := strings.Split(inputLine, " ")
-    returnedString := splitLine[len(splitLine)-1]
-    fmt.Printf("#DEBUG %d RCV Returned value |%s|\n", connum, returnedString)
-    io.WriteString(connection, fmt.Sprintf("%s\n", returnedString))
-    */
-
 }
