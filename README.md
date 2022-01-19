@@ -1,6 +1,6 @@
 # Projet Simulation d'espace aérien en GoLang
 ### écrit par Fattah Abdeladem Saoud
-##Comment lancer le projet?
+## Comment lancer le projet?
   Lancer d'abord le fichier server.go dans un terminal.
   Dans d'autres terminaux lancer des clients autant que voulu client.go
 
